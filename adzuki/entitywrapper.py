@@ -78,7 +78,7 @@ class EntityWrapper(object):
   @property
   def __dict__(self):
     dictionary = dict(self._entity)
-    jsonifiable_dictionary = { 'id': self.key.name }
+    jsonifiable_dictionary = { 'id': self.key.id_or_name }
     for key, value in dictionary.items():
       if self._projection is None or key in self._projection:
         if isinstance(value, bytes):
