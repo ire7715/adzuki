@@ -1,6 +1,5 @@
-from tests.books import Book
 from datetime import datetime, timezone
-from tests.books import AbstractTestBook
+from tests.books import AbstractTestBook, Book
 
 class CreateBooksSuite(AbstractTestBook):
   def setUp(self):
