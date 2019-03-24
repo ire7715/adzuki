@@ -2,7 +2,7 @@ from tests.books import Book
 from datetime import datetime, timezone
 from tests.books import AbstractTestBook
 
-class TestCreateBooks(AbstractTestBook):
+class CreateBooksSuite(AbstractTestBook):
   def setUp(self):
     self._ISBN = '978-0618968633'
 

@@ -1,3 +1,3 @@
 from .abstracttestbooks import AbstractTestBook
 from .books import Book
-from .testcreatebooks import TestCreateBooks
+from .createbookssuite import CreateBooksSuite
