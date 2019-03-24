@@ -6,7 +6,7 @@ with open('README.md', 'r') as fh:
 setuptools.setup(
   name='adzuki',
   version='0.1.0',
-  author='SHOWHUE, Ire Sun',
+  author='SHOWHUE, Ire Sun, Kunda Lee',
   author_email='ire7715+adzuki@hotmail.com',
   description='ORM for GCP datastore',
   long_description=long_description,
