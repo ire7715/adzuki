@@ -4,28 +4,51 @@ from tests.books import AbstractTestBook, Book
 
 class ReadBooksSuite(AbstractTestBook):
   def setUp(self):
-    self._ISBN = '978-0618968633'
-    self._entity = {
-      'title': 'The Hobbit',
-      'language': 'English',
-      'pages': 320,
-      'author': {
-        'name': 'J.R.R. Tolkien'
+    self._entities = {
+      '978-0618968633': {
+        'title': 'The Hobbit',
+        'language': 'English',
+        'pages': 320,
+        'author': {
+          'name': 'J.R.R. Tolkien'
+        },
+        'released_at': datetime(2007, 9, 17, tzinfo=timezone.utc)
       },
-      'released_at': datetime(2007, 9, 17, tzinfo=timezone.utc)
+      '978-0375823732': {
+        'title': 'The Hobbit',
+        'language': 'English',
+        'pages': 320,
+        'author': {
+          'name': 'J.R.R. Tolkien'
+        },
+        'released_at': datetime(2007, 9, 17, tzinfo=timezone.utc)
+      },
+      '978-1328557513': {
+        'title': 'A Middle-earth Traveler: Sketches from Bag End to Mordor',
+        'language': 'English',
+        'pages': 176,
+        'author': {
+          'name': 'John Howe'
+        },
+        'released_at': datetime(2018, 10, 9, tzinfo=timezone.utc)
+      }
     }
-    raw_book_entity = datastore.Entity(key=self._client.key(self._kind, self._ISBN))
-    for key, value in self._entity.items():
-      raw_book_entity[key] = value
-    self._client.put(raw_book_entity)
+    for isbn, entity in self._entities.items():
+      raw_book_entity = datastore.Entity(key=self._client.key(self._kind, isbn))
+      for key, value in entity.items():
+        raw_book_entity[key] = value
+      self._client.put(raw_book_entity)
 
   def tearDown(self):
-    key = self._client.key(self._kind, self._ISBN)
-    self._client.delete(key)
+    for isbn, entity in self._entities.items():
+      key = self._client.key(self._kind, isbn)
+      self._client.delete(key)
 
   def testGetBook(self):
+    expected_isbn, expected_entity = next(iter(self._entities.items()))
+
     books_model = Book()
-    book_entity = books_model.get(self._ISBN)
-    self.assertEqual(book_entity.id, self._ISBN)
-    for key, value in self._entity.items():
+    book_entity = books_model.get(expected_isbn)
+    self.assertEqual(book_entity.id, expected_isbn)
+    for key, value in expected_entity.items():
       self.assertEqual(book_entity[key], value)
