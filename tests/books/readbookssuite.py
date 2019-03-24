@@ -52,3 +52,17 @@ class ReadBooksSuite(AbstractTestBook):
     self.assertEqual(book_entity.id, expected_isbn)
     for key, value in expected_entity.items():
       self.assertEqual(book_entity[key], value)
+
+  def testQueryBooks(self):
+    postprojection = ['title', 'pages']
+    book_model = Book()
+    entities = book_model.query(filters=[
+      ('auther.name', '=', 'J.R.R. Tolkien')
+    ], postprojection=postprojection)
+
+    for entity in entities:
+      self.assertTrue(entity.id in self._entities)
+      expected_entity = self._entities[entity.id]
+      for key in postprojection:
+        self.assertEqual(entity[key], expected_entity[key])
+      self.assertEqual(entity['language'], None)
