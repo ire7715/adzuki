@@ -89,7 +89,7 @@ class EntityWrapper(object):
 
   @property
   def id(self):
-    return self._entity.key.name
+    return self._entity.key.id_or_name
 
   @property
   def key(self):
