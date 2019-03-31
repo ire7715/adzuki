@@ -34,13 +34,6 @@ class Model(object):
   def schema(self):
     pass
 
-  @property
-  @abstractmethod
-  def options(self):
-    return {
-      'eager_schema_validation': False
-    }
-
   def get(self, entity_id):
     key = self._client.key(self.kind, entity_id)
     entity = self._client.get(key)

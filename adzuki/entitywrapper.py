@@ -25,11 +25,6 @@ class EntityWrapper(object):
   def __setitem__(self, key, value):
     if self._projection is not None:
       raise ValueError('Updating a projected entitiy is not allowed.')
-    elif self._model.options['eager_schema_validation']:
-      entity_to_update = copy.deepcopy(self._entity)
-      entity_to_update[key] = value
-      self._model._schema_validator.validate(utils.entity2dict(entity_to_update))
-      self._entity = entity_to_update
     else:
       self._entity[key] = value
 

@@ -29,6 +29,7 @@ class Book(Model):
       '$schema': 'http://json-schema.org/draft-07/schema#',
       'title': 'Book example for Adzuki',
       'description': '',
+      'required': [ 'title', 'author', 'released_at' ],
       'type': 'object',
       'properties': {
         'title': { 'type': 'string' },
@@ -44,9 +45,3 @@ class Book(Model):
         'released_at': { 'type': 'datetime' }
       }
     }
-
-  @property
-  def options(self):
-    super_options = super(Book, self).options
-    super_options['eager_schema_validation'] = True
-    return super_options

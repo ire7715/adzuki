@@ -86,5 +86,6 @@ class BooksOperationSuite(AbstractTestBook):
 
     books_model = Book()
     book_entity = books_model.get(isbn)
+    book_entity['pages'] = 'three twenty'
     with self.assertRaises(Exception):
-      book_entity['pages'] = 'three twenty'
+      book_entity.put()

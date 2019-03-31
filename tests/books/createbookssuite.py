@@ -43,22 +43,6 @@ class CreateBooksSuite(AbstractTestBook):
     books_model = Book()
     book_handler = books_model.create(self._ISBN)
     for key, value in input_entity.items():
-      if key == 'author.name':
-        with self.assertRaises(Exception):
-          book_handler[key] = value
-      elif key == 'released_at':
-        with self.assertRaises(Exception):
-          book_handler[key] = value
-      else:
         book_handler[key] = value
-    book_handler.put()
-
-    book_entity = books_model.get(self._ISBN)
-    self.assertEqual(book_entity.id, self._ISBN)
-    for key, value in input_entity.items():
-      if key in ['author.name', 'released_at']:
-        continue
-      elif key == 'pages':
-        self.assertEqual(book_entity[key], int(value))
-      else:
-        self.assertEqual(book_entity[key], value)
+    with self.assertRaises(Exception):
+      book_handler.put()
