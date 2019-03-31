@@ -15,13 +15,13 @@ class BooksOperationSuite(AbstractTestBook):
         'released_at': datetime(2007, 9, 17, tzinfo=timezone.utc)
       },
       '978-0375823732': {
-        'title': 'The Hobbit',
+        'title': 'Bilbo\'s Last Song',
         'language': 'English',
-        'pages': 320,
+        'pages': 32,
         'author': {
           'name': 'J.R.R. Tolkien'
         },
-        'released_at': datetime(2007, 9, 17, tzinfo=timezone.utc)
+        'released_at': datetime(2002, 9, 24, tzinfo=timezone.utc)
       },
       '978-1328557513': {
         'title': 'A Middle-earth Traveler: Sketches from Bag End to Mordor',
