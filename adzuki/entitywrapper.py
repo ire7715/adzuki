@@ -25,7 +25,7 @@ class EntityWrapper(object):
       else:
         return given_type(value)
     else:
-      raise ValueError('Unable to perform to given_type: \'%s\' type match.' % str(given_type))
+      raise ValueError('Unable to perform type matching for \'%s\'.' % str(given_type))
 
   def __init__(self, model, entity, projection=None):
     self._model = model
@@ -89,7 +89,7 @@ class EntityWrapper(object):
 
   @property
   def id(self):
-    return self._entity.key.name
+    return self._entity.key.id_or_name
 
   @property
   def key(self):

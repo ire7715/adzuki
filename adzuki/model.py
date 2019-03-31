@@ -47,11 +47,11 @@ class Model(object):
     entity = self.get(entity_id)
     return entity is not None
 
-  def query(self, filters=[], distinct_on=[], projection=[], limit=None, offset=0, shuffle=False, postprojection=None):
+  def query(self, filters=[], distinct_on=None, projection=None, limit=None, offset=0, shuffle=False, postprojection=None):
     query = self._client.query(kind=self.kind)
-    if len(distinct_on) > 0:
+    if distinct_on is not None and len(distinct_on) > 0:
       query.distinct_on = distinct_on
-    if len(projection) > 0:
+    if projection is not None and len(projection) > 0:
       query.projection = projection
     if shuffle:
       query.add_filter('random_key', '>=', random())
