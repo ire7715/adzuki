@@ -24,13 +24,24 @@ class Book(Model):
     return self._kind
 
   @property
-  def attributes(self):
+  def schema(self):
     return {
-      'title': str,
-      'language': str,
-      'pages': int,
-      'author': {
-        'name': str
-      },
-      'released_at': datetime
+      '$schema': 'http://json-schema.org/draft-07/schema#',
+      'title': 'Book example for Adzuki',
+      'description': '',
+      'required': [ 'title', 'author', 'released_at' ],
+      'type': 'object',
+      'properties': {
+        'title': { 'type': 'string' },
+        'language': { 'type': 'string' },
+        'pages': { 'type': 'number' },
+        'author': {
+          'type': 'object',
+          'required': [ 'name' ],
+          'properties': {
+            'name': { 'type': 'string' }
+          }
+        },
+        'released_at': { 'type': 'datetime' }
+      }
     }
