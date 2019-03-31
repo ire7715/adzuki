@@ -66,3 +66,25 @@ class BooksOperationSuite(AbstractTestBook):
       for key in postprojection:
         self.assertEqual(entity[key], expected_entity[key])
       self.assertEqual(entity['language'], None)
+
+  def testEditBook(self):
+    isbn, _ = next(iter(self._entities.items()))
+    expected_title = 'Foo'
+    expected_author_name = 'Bar'
+
+    books_model = Book()
+    book_entity = books_model.get(isbn)
+    book_entity['title'] = expected_title
+    book_entity['author']['name'] = expected_author_name
+    book_entity.put()
+    updated_entity = books_model.get(isbn)
+    self.assertEqual(updated_entity['title'], expected_title)
+    self.assertEqual(updated_entity['author']['name'], expected_author_name)
+
+  def testEditViolation(self):
+    isbn, _ = next(iter(self._entities.items()))
+
+    books_model = Book()
+    book_entity = books_model.get(isbn)
+    with self.assertRaises(Exception):
+      book_entity['pages'] = 'three twenty'
