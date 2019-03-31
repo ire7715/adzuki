@@ -72,6 +72,9 @@ class EntityWrapper(object):
   def kind(self):
     return self._entity.kind
 
+  def is_valid(self):
+    return self._model._schema_validator.is_valid(utils.entity2dict(self._entity))
+
   def put(self):
     if self._projection is not None:
       raise ValueError('Updating a projected entitiy is not allowed.')

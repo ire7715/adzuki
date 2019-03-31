@@ -81,11 +81,12 @@ class BooksOperationSuite(AbstractTestBook):
     self.assertEqual(updated_entity['title'], expected_title)
     self.assertEqual(updated_entity['author']['name'], expected_author_name)
 
-  def testEditViolation(self):
+  def testSchemaViolation(self):
     isbn, _ = next(iter(self._entities.items()))
 
     books_model = Book()
     book_entity = books_model.get(isbn)
     book_entity['pages'] = 'three twenty'
+    self.assertFalse(book_entity.is_valid())
     with self.assertRaises(Exception):
       book_entity.put()
