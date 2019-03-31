@@ -35,15 +35,18 @@ class CreateBooksSuite(AbstractTestBook):
     input_entity = {
       'title': 'The Hobbit',
       'language': 'English',
-      'pages': '320',
-      'author.name': 'J.R.R. Tolkien',
+      'pages': 320,
+      'author.name1': 'J.R.R. Tolkien',
       'released_at': '2007-09-17T00:00:00Z'
     }
 
     books_model = Book()
     book_handler = books_model.create(self._ISBN)
     for key, value in input_entity.items():
-      if key in ['author.name', 'released_at']:
+      if key == 'author.name':
+        with self.assertRaises(Exception):
+          book_handler[key] = value
+      elif key == 'released_at':
         with self.assertRaises(Exception):
           book_handler[key] = value
       else:

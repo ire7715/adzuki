@@ -1,11 +1,18 @@
 from abc import abstractmethod
+from datetime import datetime
 from . import EntityWrapper
 from google.cloud import datastore
 from random import random
+import jsonschema
 
 class Model(object):
   def __init__(self):
     self._client = datastore.Client(project=self.project, namespace=self.namespace)
+    adzuki_type_checker = jsonschema.Draft7Validator.TYPE_CHECKER.redefine(
+      'datetime', lambda _, dt: isinstance(dt, datetime))
+    AdzukiValidator = jsonschema.validators.extend(
+      jsonschema.Draft7Validator, type_checker=adzuki_type_checker)
+    self._schema_validator = AdzukiValidator(self.schema)
 
   @property
   @abstractmethod
@@ -24,16 +31,20 @@ class Model(object):
 
   @property
   @abstractmethod
-  def attributes(self):
+  def schema(self):
     pass
+
+  @property
+  @abstractmethod
+  def options(self):
+    return {
+      'eager_schema_validation': False
+    }
 
   def get(self, entity_id):
     key = self._client.key(self.kind, entity_id)
     entity = self._client.get(key)
     return None if entity == None else EntityWrapper(self, entity)
-
-  def put(self, entity):
-    return self._client.put(entity)
 
   def create(self, entity_id, overwrite=False):
     if self.existed(entity_id):

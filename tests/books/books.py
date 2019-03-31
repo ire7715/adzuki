@@ -24,13 +24,29 @@ class Book(Model):
     return self._kind
 
   @property
-  def attributes(self):
+  def schema(self):
     return {
-      'title': str,
-      'language': str,
-      'pages': int,
-      'author': {
-        'name': str
-      },
-      'released_at': datetime
+      '$schema': 'http://json-schema.org/draft-07/schema#',
+      'title': 'Book example for Adzuki',
+      'description': '',
+      'type': 'object',
+      'properties': {
+        'title': { 'type': 'string' },
+        'language': { 'type': 'string' },
+        'pages': { 'type': 'number' },
+        'author': {
+          'type': 'object',
+          'required': [ 'name' ],
+          'properties': {
+            'name': { 'type': 'string' }
+          }
+        },
+        'released_at': { 'type': 'datetime' }
+      }
     }
+
+  @property
+  def options(self):
+    super_options = super(Book, self).options
+    super_options['eager_schema_validation'] = True
+    return super_options
