@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from google.cloud import datastore
 from tests.books import AbstractTestBook, Book
 
-class ReadBooksSuite(AbstractTestBook):
+class BooksOperationSuite(AbstractTestBook):
   def setUp(self):
     self._entities = {
       '978-0618968633': {
