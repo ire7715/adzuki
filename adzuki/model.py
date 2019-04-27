@@ -40,7 +40,7 @@ class Model(object):
     return None if entity == None else EntityWrapper(self, entity)
 
   def create(self, entity_id, overwrite=False):
-    if self.existed(entity_id):
+    if self.existed(entity_id) and not overwrite:
       raise KeyError('Key\'%s\' existed, to overwrite please set overwrite=True.')
     else:
       key = self._client.key(self.kind, entity_id)
