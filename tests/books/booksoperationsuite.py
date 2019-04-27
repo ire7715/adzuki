@@ -90,3 +90,22 @@ class BooksOperationSuite(AbstractTestBook):
     self.assertFalse(book_entity.is_valid())
     with self.assertRaises(Exception):
       book_entity.put()
+
+  def testOverwriteBook(self):
+    isbn, origin_entity = next(iter(self._entities.items()))
+    expected_title = 'Foo'
+    expected_author_name = 'Bar'
+
+    books_model = Book()
+    with self.assertRaises(KeyError):
+      books_model.create(isbn)
+    book_entity = books_model.create(isbn, overwrite=True)
+    book_entity['title'] = expected_title
+    book_entity['author'] = { 'name': expected_author_name }
+    book_entity['language'] = origin_entity['language']
+    book_entity['pages'] = origin_entity['pages']
+    book_entity['released_at'] = origin_entity['released_at']
+    book_entity.put()
+    updated_entity = books_model.get(isbn)
+    self.assertEqual(updated_entity['title'], expected_title)
+    self.assertEqual(updated_entity['author']['name'], expected_author_name)
