@@ -49,9 +49,12 @@ class BooksOperationSuite(AbstractTestBook):
 
     books_model = Book()
     book_entity = books_model.get(expected_isbn)
+    book_json = dict(book_entity)
     self.assertEqual(book_entity.id, expected_isbn)
+    self.assertEqual(book_json['id'], expected_isbn)
     for key, value in expected_entity.items():
       self.assertEqual(book_entity[key], value)
+      self.assertEqual(book_json[key], value)
 
   def testQueryBooks(self):
     postprojection = ['title', 'pages']

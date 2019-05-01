@@ -48,6 +48,9 @@ class EntityWrapper(object):
     else:
       return NotImplemented
 
+  def __iter__(self):
+    yield from self.__dict__.items()
+
   @property
   def __dict__(self):
     dictionary = dict(self._entity)
